@@ -241,6 +241,30 @@
               return new bootstrap.Toast(toastEl, { autohide: true })
           })
           toastList.forEach(toast => toast.show())
+
+          document.querySelectorAll('input[type="password"]').forEach(function (input) {
+              var wrapper = document.createElement('div');
+              wrapper.className = 'input-group';
+              input.parentNode.insertBefore(wrapper, input);
+              wrapper.appendChild(input);
+
+              var btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'btn btn-outline-secondary';
+              btn.style.borderRadius = '0 10px 10px 0';
+              btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+              wrapper.appendChild(btn);
+
+              btn.addEventListener('click', function () {
+                  if (input.type === 'password') {
+                      input.type = 'text';
+                      btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+                  } else {
+                      input.type = 'password';
+                      btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                  }
+              });
+          });
       });
     </script>
   </body>

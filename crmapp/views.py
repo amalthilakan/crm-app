@@ -21,6 +21,8 @@ from django.core.exceptions import ValidationError
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('customer_list')
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -30,6 +32,20 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'registration/login.html', {'form': form})
 
+
+def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect('customer_list')
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Registration successful! Welcome to CRM.')
+            return redirect('customer_list')
+    else:
+        form = UserForm()
+    return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
 def profile_update(request):
