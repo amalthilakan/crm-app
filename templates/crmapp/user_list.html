@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Users - CRM{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="mb-0 fw-bold"><i class="fa-solid fa-user-shield text-info me-2"></i>Admin Users</h3>
+    <a href="{% url 'user_create' %}" class="btn btn-info text-white shadow-sm"><i class="fa-solid fa-plus me-1"></i> Add Admin User</a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Username</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th class="text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                    <tr>
+                        <td class="ps-4 fw-bold">
+                            <i class="fa-solid fa-user text-muted me-2"></i>{{ u.username }}
+                        </td>
+                        <td>{{ u.first_name }} {{ u.last_name }}</td>
+                        <td><a href="mailto:{{ u.email }}" class="text-decoration-none text-muted">{{ u.email }}</a></td>
+                        <td class="text-end pe-4">
+                            <a href="{% url 'user_detail' u.pk %}" class="btn btn-sm btn-outline-info me-1" title="View"><i class="fa-solid fa-eye"></i></a>
+                            <a href="{% url 'user_update' u.pk %}" class="btn btn-sm btn-outline-warning me-1" title="Edit"><i class="fa-solid fa-pen"></i></a>
+                            {% if u != request.user %}
+                            <a href="{% url 'user_delete' u.pk %}" class="btn btn-sm btn-outline-danger" title="Delete"><i class="fa-solid fa-trash"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">No users found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

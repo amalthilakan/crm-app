@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ title }} - CRM{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 mt-4">
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-5">
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                    <h3 class="fw-bold mb-0"><i class="fa-solid fa-user-edit text-info me-2"></i>{{ title }}</h3>
+                    <a href="{% url 'user_list' %}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
+                </div>
+                
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4 pt-4 border-top">
+                        <a href="{% url 'user_list' %}" class="btn btn-light px-4 border text-secondary fw-bold">Cancel</a>
+                        <button type="submit" class="btn btn-info text-white px-4 fw-bold"><i class="fa-solid fa-save me-2"></i>Save Admin User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

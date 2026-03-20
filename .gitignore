@@ -1,0 +1,32 @@
+# Python environments
+venv/
+env/
+.venv/
+
+# Python compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff
+db.sqlite3
+db.sqlite3-journal
+
+# Uploaded files
+media/
+uploads/
+
+# Settings / Environments
+.env
+.env.local
+.secret
+secrets.json
+
+# IDEs
+.vscode/
+.idea/
+.gemini/
+
+# OS generated files
+.DS_Store
+Thumbs.db

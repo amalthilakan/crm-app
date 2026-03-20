@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Customers - CRM{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <h3 class="mb-0 fw-bold"><i class="fa-solid fa-users text-primary me-2"></i>Customers</h3>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'customer_download_pdf' %}" class="btn btn-outline-danger shadow-sm"><i class="fa-solid fa-file-pdf me-1"></i> Export PDF</a>
+        <a href="{% url 'customer_bulk_upload' %}" class="btn btn-outline-success shadow-sm"><i class="fa-solid fa-file-excel me-1"></i> Import</a>
+        <a href="{% url 'customer_create' %}" class="btn btn-primary shadow-sm"><i class="fa-solid fa-user-plus me-1"></i> Add</a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Added Date</th>
+                        <th class="text-end pe-4 text-nowrap">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in customers %}
+                    <tr style="animation: rowFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: {{ forloop.counter0 }}00ms; opacity: 0;">
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                {% if customer.image %}
+                                <img src="{{ customer.image.url }}" alt="{{ customer.name }}" class="rounded-circle me-3 object-fit-cover shadow-sm" style="width: 45px; height: 45px;">
+                                {% else %}
+                                <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 45px; height: 45px; font-size: 1.2rem;">
+                                    {{ customer.name|make_list|first|upper }}
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <h6 class="mb-0 fw-bold">{{ customer.name }}</h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-break"><a href="mailto:{{ customer.email }}" class="text-decoration-none text-muted"><i class="fa-regular fa-envelope me-1"></i>{{ customer.email }}</a></td>
+                        <td><i class="fa-solid fa-phone fa-sm text-muted me-1"></i>{{ customer.phone }}</td>
+                        <td>{{ customer.created_at|date:"M d, Y" }}</td>
+                        <td class="text-end pe-4 text-nowrap">
+                            <a href="{% url 'customer_detail' customer.pk %}" class="btn btn-sm btn-info text-white me-1" title="View"><i class="fa-solid fa-eye"></i></a>
+                            <a href="{% url 'customer_update' customer.pk %}" class="btn btn-sm btn-warning text-white me-1" title="Edit"><i class="fa-solid fa-pen"></i></a>
+                            <a href="{% url 'customer_delete' customer.pk %}" class="btn btn-sm btn-danger text-white" title="Delete"><i class="fa-solid fa-trash"></i></a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <i class="fa-solid fa-inbox fa-3x text-muted mb-3 d-block"></i>
+                            <h5 class="text-muted">No customers found.</h5>
+                            <p class="text-muted">Start by adding a new customer or importing from excel.</p>
+                            <a href="{% url 'customer_create' %}" class="btn btn-primary mt-2">Add Customer</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    
+    {% if customers.has_other_pages %}
+    <div class="card-footer bg-white border-top-0 py-4">
+        <nav aria-label="Customer pagination">
+            <ul class="pagination justify-content-center mb-0">
+                {% if customers.has_previous %}
+                <li class="page-item">
+                    <a class="page-link text-primary shadow-sm" href="?page=1">&laquo; First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link text-primary shadow-sm" href="?page={{ customers.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo; First</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+                {% endif %}
+
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link bg-primary border-primary shadow-sm">
+                        Page {{ customers.number }} of {{ customers.paginator.num_pages }}
+                    </span>
+                </li>
+
+                {% if customers.has_next %}
+                <li class="page-item">
+                    <a class="page-link text-primary shadow-sm" href="?page={{ customers.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link text-primary shadow-sm" href="?page={{ customers.paginator.num_pages }}">Last &raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">Last &raquo;</span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
