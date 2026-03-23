@@ -1,23 +1,28 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+# stdlib
+import io
+
+# Django
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Customer
-from .forms import CustomerForm, UserForm, UserUpdateForm
-
-import pandas as pd
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
+from django.core.validators import validate_email
 from django.http import HttpResponse
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
+from django.shortcuts import get_object_or_404, redirect, render
+
+# Third-party
+import pandas as pd
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
-import io
-from django.core.paginator import Paginator
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
+# Local
+from .forms import CustomerForm, UserForm, UserProfileForm, UserUpdateForm
+from .models import Customer, UserProfile
 
 
 def login_view(request):
@@ -49,15 +54,19 @@ def signup_view(request):
 
 @login_required
 def profile_update(request):
+    profile, _ = UserProfile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
+        profile_form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid() and profile_form.is_valid():
             form.save()
+            profile_form.save()
             messages.success(request, 'Profile updated successfully')
             return redirect('profile_update')
     else:
         form = UserUpdateForm(instance=request.user)
-    return render(request, 'crmapp/profile_update.html', {'form': form})
+        profile_form = UserProfileForm(instance=profile)
+    return render(request, 'crmapp/profile_update.html', {'form': form, 'profile_form': profile_form})
 
 
 @login_required
@@ -75,24 +84,31 @@ def user_detail(request, pk):
 @login_required
 def user_create(request):
     form = UserForm(request.POST or None)
-    if form.is_valid():
-        form.save()
+    profile_form = UserProfileForm(request.POST or None)
+    if form.is_valid() and profile_form.is_valid():
+        user = form.save()
+        profile = profile_form.save(commit=False)
+        profile.user = user
+        profile.save()
         messages.success(request, 'User created successfully')
         return redirect('user_list')
-    return render(request, 'crmapp/user_form.html', {'form': form, 'title': 'Create User'})
+    return render(request, 'crmapp/user_form.html', {'form': form, 'profile_form': profile_form, 'title': 'Create User'})
 
 
 @login_required
 def user_update(request, pk):
     user_obj = get_object_or_404(User, pk=pk)
+    profile, _ = UserProfile.objects.get_or_create(user=user_obj)
     form = UserUpdateForm(request.POST or None, instance=user_obj)
+    profile_form = UserProfileForm(request.POST or None, instance=profile)
 
-    if form.is_valid():
+    if form.is_valid() and profile_form.is_valid():
         form.save()
+        profile_form.save()
         messages.success(request, 'User updated successfully')
         return redirect('user_list')
 
-    return render(request, 'crmapp/user_form.html', {'form': form, 'title': 'Edit User'})
+    return render(request, 'crmapp/user_form.html', {'form': form, 'profile_form': profile_form, 'title': 'Edit User'})
 
 
 @login_required

@@ -16,7 +16,7 @@
                 <form method="post" novalidate>
                     {% csrf_token %}
                     {{ form|crispy }}
-                    
+                    {{ profile_form|crispy }}
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4 pt-4 border-top">
                         <a href="{% url 'user_list' %}" class="btn btn-light px-4 border text-secondary fw-bold">Cancel</a>
                         <button type="submit" class="btn btn-info text-white px-4 fw-bold"><i class="fa-solid fa-save me-2"></i>Save Admin User</button>

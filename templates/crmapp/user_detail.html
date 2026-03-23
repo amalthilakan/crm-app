@@ -35,6 +35,16 @@
                             <td class="fw-bold">{{ user_obj.email }}</td>
                         </tr>
                         <tr>
+                            <td class="text-muted text-end w-50 pe-3"><i class="fa-solid fa-phone me-2"></i>Phone:</td>
+                            <td class="fw-bold">
+                                {% if user_obj.profile.phone %}
+                                    {{ user_obj.profile.phone }}
+                                {% else %}
+                                    <span class="text-secondary fst-italic">Not set</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="text-muted text-end w-50 pe-3"><i class="fa-solid fa-calendar me-2"></i>Date Joined:</td>
                             <td class="fw-bold">{{ user_obj.date_joined|date:"M j, Y" }}</td>
                         </tr>

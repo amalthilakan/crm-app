@@ -13,7 +13,7 @@
                 <form method="post" novalidate>
                     {% csrf_token %}
                     {{ form|crispy }}
-                    
+                    {{ profile_form|crispy }}
                     <div class="d-grid mt-4 pt-3 text-center">
                         <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm fw-bold"><i class="fa-solid fa-check me-2"></i>Update Profile</button>
                     </div>

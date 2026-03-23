@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     {% for customer in customers %}
-                    <tr style="animation: rowFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: {{ forloop.counter0 }}00ms; opacity: 0;">
+                    <tr style="--delay: {{ forloop.counter0 }}; animation: rowFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: calc(var(--delay) * 100ms); opacity: 0;">
                         <td class="ps-4">
                             <div class="d-flex align-items-center">
                                 {% if customer.image %}
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="text-break"><a href="mailto:{{ customer.email }}" class="text-decoration-none text-muted"><i class="fa-regular fa-envelope me-1"></i>{{ customer.email }}</a></td>
+                        <td class="text-break text-muted"><i class="fa-regular fa-envelope me-1"></i>{{ customer.email }}</td>
                         <td><i class="fa-solid fa-phone fa-sm text-muted me-1"></i>{{ customer.phone }}</td>
                         <td>{{ customer.created_at|date:"M d, Y" }}</td>
                         <td class="text-end pe-4 text-nowrap">

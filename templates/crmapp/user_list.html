@@ -17,6 +17,7 @@
                         <th class="ps-4">Username</th>
                         <th>Full Name</th>
                         <th>Email</th>
+                        <th>Phone</th>
                         <th class="text-end pe-4">Actions</th>
                     </tr>
                 </thead>
@@ -27,7 +28,14 @@
                             <i class="fa-solid fa-user text-muted me-2"></i>{{ u.username }}
                         </td>
                         <td>{{ u.first_name }} {{ u.last_name }}</td>
-                        <td><a href="mailto:{{ u.email }}" class="text-decoration-none text-muted">{{ u.email }}</a></td>
+                        <td class="text-muted">{{ u.email }}</td>
+                        <td class="text-muted">
+                            {% if u.profile.phone %}
+                                <i class="fa-solid fa-phone fa-sm me-1"></i>{{ u.profile.phone }}
+                            {% else %}
+                                <span class="text-secondary fst-italic">—</span>
+                            {% endif %}
+                        </td>
                         <td class="text-end pe-4">
                             <a href="{% url 'user_detail' u.pk %}" class="btn btn-sm btn-outline-info me-1" title="View"><i class="fa-solid fa-eye"></i></a>
                             <a href="{% url 'user_update' u.pk %}" class="btn btn-sm btn-outline-warning me-1" title="Edit"><i class="fa-solid fa-pen"></i></a>
