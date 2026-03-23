@@ -1,55 +1,51 @@
 {% extends "base.html" %}
 
-{% block title %}User Profile - CRM{% endblock %}
+{% block title %}{{ user_obj.username }} - CRM{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6 mt-4">
-        <div class="card shadow border-0 rounded-4">
+        <div class="card shadow border-0 rounded-4 no-hover">
             <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                 <h4 class="mb-0 fw-bold"><i class="fa-solid fa-address-card text-info me-2"></i>Admin User Info</h4>
-                <div>
+                <div class="d-flex gap-2">
                     <a href="{% url 'user_update' user_obj.pk %}" class="btn btn-warning btn-sm text-white"><i class="fa-solid fa-pen me-1"></i>Edit</a>
-                    <a href="{% url 'user_list' %}" class="btn btn-outline-secondary btn-sm ms-1"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
+                    <a href="{% url 'user_list' %}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
                 </div>
             </div>
             <div class="card-body p-5">
-                <div class="text-center mb-4">
-                    <div class="bg-light text-primary rounded-circle d-inline-flex align-items-center justify-content-center border" style="width: 100px; height: 100px; font-size: 3rem;">
-                        <i class="fa-solid fa-user"></i>
+                <div class="text-center mb-5">
+                    <img src="https://ui-avatars.com/api/?name={{ user_obj.get_full_name|default:user_obj.username }}&background=e0e7ff&color=4f46e5&bold=true&size=100"
+                         class="rounded-circle shadow-sm" style="width: 90px; height: 90px;" alt="Avatar">
+                    <h4 class="fw-bold mt-3 mb-0">{{ user_obj.get_full_name|default:user_obj.username }}</h4>
+                    <span class="text-muted small">@{{ user_obj.username }}</span>
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
+                        <i class="fa-regular fa-envelope text-primary fa-lg" style="width:20px;"></i>
+                        <div>
+                            <div class="text-muted" style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Email</div>
+                            <div class="fw-semibold">{{ user_obj.email|default:"—" }}</div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
+                        <i class="fa-solid fa-phone text-primary fa-lg" style="width:20px;"></i>
+                        <div>
+                            <div class="text-muted" style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Phone</div>
+                            <div class="fw-semibold">
+                                {% if user_obj.profile.phone %}{{ user_obj.profile.phone }}{% else %}<span class="text-muted fst-italic">Not set</span>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3">
+                        <i class="fa-solid fa-calendar text-primary fa-lg" style="width:20px;"></i>
+                        <div>
+                            <div class="text-muted" style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Date Joined</div>
+                            <div class="fw-semibold">{{ user_obj.date_joined|date:"F j, Y" }}</div>
+                        </div>
                     </div>
                 </div>
-                
-                <table class="table table-borderless fs-5">
-                    <tbody>
-                        <tr>
-                            <td class="text-muted text-end w-50 pe-3"><i class="fa-solid fa-circle-user me-2"></i>Username:</td>
-                            <td class="fw-bold">{{ user_obj.username }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted text-end w-50 pe-3"><i class="fa-solid fa-signature me-2"></i>Full Name:</td>
-                            <td class="fw-bold">{{ user_obj.first_name }} {{ user_obj.last_name }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted text-end w-50 pe-3"><i class="fa-regular fa-envelope me-2"></i>Email:</td>
-                            <td class="fw-bold">{{ user_obj.email }}</td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted text-end w-50 pe-3"><i class="fa-solid fa-phone me-2"></i>Phone:</td>
-                            <td class="fw-bold">
-                                {% if user_obj.profile.phone %}
-                                    {{ user_obj.profile.phone }}
-                                {% else %}
-                                    <span class="text-secondary fst-italic">Not set</span>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-muted text-end w-50 pe-3"><i class="fa-solid fa-calendar me-2"></i>Date Joined:</td>
-                            <td class="fw-bold">{{ user_obj.date_joined|date:"M j, Y" }}</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

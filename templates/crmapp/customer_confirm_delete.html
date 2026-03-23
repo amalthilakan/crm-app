@@ -4,20 +4,21 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6 mt-5">
-        <div class="card shadow border-danger border-2 rounded-4">
+    <div class="col-md-5 mt-5">
+        <div class="card border-0 rounded-4 no-hover" style="box-shadow: 0 0 0 2px #fecdd3, 0 20px 40px -10px rgba(225,29,72,0.12);">
             <div class="card-body p-5 text-center">
-                <i class="fa-solid fa-triangle-exclamation fa-4x text-danger mb-4"></i>
-                <h3 class="fw-bold mb-3">Delete Customer</h3>
-                <p class="text-muted fs-5 mb-4">
-                    Are you sure you want to delete the customer <strong>"{{ customer.name }}"</strong>? <br>
-                    <span class="text-danger">This action cannot be undone.</span>
-                </p>
+                <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                    <i class="fa-solid fa-trash fa-2x text-danger"></i>
+                </div>
+                <h3 class="fw-bold mb-2">Delete Customer?</h3>
+                <p class="text-muted mb-1">You are about to permanently delete</p>
+                <p class="fw-bold fs-5 mb-1">{{ customer.name }}</p>
+                <p class="text-danger small fw-semibold mb-4"><i class="fa-solid fa-circle-exclamation me-1"></i>This action cannot be undone.</p>
                 <form method="post">
                     {% csrf_token %}
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <a href="{% url 'customer_list' %}" class="btn btn-light btn-lg border px-4">Cancel</a>
-                        <button type="submit" class="btn btn-danger btn-lg px-4"><i class="fa-solid fa-trash me-2"></i>Yes, Delete</button>
+                    <div class="d-flex gap-3 justify-content-center">
+                        <a href="{% url 'customer_list' %}" class="btn btn-light border px-4 fw-bold">Cancel</a>
+                        <button type="submit" class="btn btn-danger px-4 fw-bold"><i class="fa-solid fa-trash me-2"></i>Yes, Delete</button>
                     </div>
                 </form>
             </div>

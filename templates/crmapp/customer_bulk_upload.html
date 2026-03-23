@@ -1,52 +1,37 @@
 {% extends "base.html" %}
 
-{% block title %}Bulk Upload Customers - CRM{% endblock %}
+{% block title %}Bulk Import Customers - CRM{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-7 mt-4">
-        <div class="card shadow-sm border-0 rounded-4">
+        <div class="card shadow-sm border-0 rounded-4 no-hover">
             <div class="card-body p-5">
-
-                <h3 class="fw-bold text-center mb-4">
-                    <i class="fa-solid fa-file-excel text-success me-2"></i>
-                    Bulk Import Customers
-                </h3>
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                    <h3 class="fw-bold mb-0"><i class="fa-solid fa-file-excel text-success me-2"></i>Bulk Import Customers</h3>
+                    <a href="{% url 'customer_list' %}" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i>Back</a>
+                </div>
 
                 <div class="alert alert-info border-0 rounded-3 shadow-sm mb-4">
-                    <h6 class="fw-bold mb-2">
-                        <i class="fa-solid fa-circle-info me-2"></i>Instructions
-                    </h6>
-                    <p class="mb-0 text-dark">
-                        Upload Excel with:
-                        <br>
+                    <h6 class="fw-bold mb-1"><i class="fa-solid fa-circle-info me-2"></i>Excel Format Required</h6>
+                    <p class="mb-0 text-dark small">Your file must include these columns:
                         <code>name</code>, <code>email</code>, <code>phone</code>, <code>address</code>
                     </p>
                 </div>
 
-                <form method="post" enctype="multipart/form-data" class="bg-light p-4 rounded-3 border">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    
-                    <div class="mb-4 text-center">
-                        <i class="fa-solid fa-file-excel fa-4x text-success mb-3 opacity-75"></i>
-                        <h4 class="fw-bold text-dark">Browse your computer</h4>
-                        <p class="text-muted small fw-bold mb-0">Supported formats: .xlsx, .xls</p>
+                    <div class="border-2 border rounded-3 p-5 text-center bg-light mb-4">
+                        <i class="fa-solid fa-file-excel fa-3x text-success mb-3 opacity-75"></i>
+                        <h5 class="fw-bold text-dark mb-1">Select your Excel file</h5>
+                        <p class="text-muted small mb-4">Supported formats: .xlsx, .xls</p>
+                        <input class="form-control form-control-lg w-75 mx-auto shadow-sm" type="file" name="excel_file" id="excel_file" accept=".xlsx,.xls" required>
                     </div>
-
-                    <div class="mb-5 w-75 mx-auto">
-                        <input class="form-control form-control-lg border border-2 shadow-sm" type="file" name="excel_file" id="excel_file" accept=".xlsx,.xls" required>
-                    </div>
-
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold mx-2 shadow-sm">
-                            <i class="fa-solid fa-upload me-2"></i>Import Data
-                        </button>
-                        <a href="{% url 'customer_list' %}" class="btn btn-light border px-5 py-2 fw-bold mx-2 shadow-sm">
-                            Cancel
-                        </a>
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{% url 'customer_list' %}" class="btn btn-light border px-4 fw-bold">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-4 fw-bold"><i class="fa-solid fa-upload me-2"></i>Import Data</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

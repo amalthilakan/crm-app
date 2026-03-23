@@ -84,7 +84,7 @@
         box-shadow: 0 10px 40px -10px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
         transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
       }
-      .card:hover {
+      .card:not(.no-hover):hover {
         transform: translateY(-4px);
         box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8);
       }
@@ -160,6 +160,20 @@
       }
       .hover-grow:hover { transform: scale(1.1); }
       
+      .form-control, .form-select {
+        border-radius: 10px;
+        border: 1.5px solid #e2e8f0;
+        padding: 0.6rem 0.9rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .form-control:focus, .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+      }
+      label.form-label { font-weight: 600; font-size: 0.875rem; color: #374151; }
+      .badge-pill { border-radius: 999px; padding: 0.35em 0.75em; font-size: 0.78rem; font-weight: 600; }
+      .empty-state { padding: 4rem 2rem; text-align: center; color: var(--text-muted); }
+      .empty-state i { font-size: 3rem; opacity: 0.35; margin-bottom: 1rem; display: block; }
       ::-webkit-scrollbar { width: 8px; height: 8px; }
       ::-webkit-scrollbar-track { background: transparent; }
       ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }

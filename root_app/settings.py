@@ -20,7 +20,7 @@ SECRET_KEY = 'django-insecure-+3&q#w5z4lg5^qb^z43+o4)(0p=jr_pb29q@y%d4x+yfv%&w&_
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['amalthilakan.pythonanywhere.com']
+ALLOWED_HOSTS = ['amalthilakan.pythonanywhere.com','localhost','127.0.0.1']
 
 
 
